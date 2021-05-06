@@ -11,17 +11,21 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+const getSize = (filePath) => {
+  fs.stat(filePath, (err, stats) => {
+    if (err){
+      console.log(`File Doesn't Exist`);
+    } else {
+      console.log(stats.size);
+    }
+  })
+}
+
 request(domain, (error, response, body) => {
-  // Print the error if one occurred
   if (error) {
     console.log(`Warning! ${error.hostname} is not a valid url!`);
     process.exit();
   }
-  // Print the response status code if a response was received
-  console.log('statusCode:', response && response.statusCode);
-  // Print the HTML for the Google homepage.
-  console.log('body:', body);
-
   fs.readFile(filePath, `utf8`, (err, data) => {
     if (err) {
       console.log("File doesn't exist, writing new file...")
@@ -41,6 +45,4 @@ request(domain, (error, response, body) => {
       })
     }
   })
-
-
 });
